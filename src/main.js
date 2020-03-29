@@ -6,8 +6,8 @@ import store from './store'
 Vue.config.productionTip = false
 
 import './style.scss'
-import http from './http'
-Vue.prototype.$http = http;
+import axios from './api'
+Vue.prototype.$axios = axios;
 
 new Vue({
   router,

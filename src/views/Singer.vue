@@ -4,9 +4,11 @@
       <div>
         <singer-category
           :singer-category = "singerCategory"
+          @categoryId="categoryId"
         />
         <singer-list
           :singer-list = "singerList"
+          @select = 'getSingerId'
         />
       </div>
     </scroll>
@@ -28,33 +30,59 @@ export default {
   data() {
     return {
       singerCategory: {},
-      singerList: []
+      singerList: [],
+      sexId: -100,
+      areaId: -100,
+      genre: -100,
+      categoryId :5001,
     }
   },
   methods: {
-    async fetchSingerCategory() {
-      const {data: {data: category}} = await this.$http.get('/artist/category');
-      this.singerCategory = {
-        sex: category.sex,
-        area: category.area,
-        genre: category.genre,
-      }
+    fetchSingerCategory() {
+      this.$axios.get('/artist/cat')
+        .then(res => {
+          //console.log(res.data);
+          this.singerCategory = res.data.result.map(item => ({  
+            sex: item.sex,
+            area: item.area,
+            genre: item.genre,
+          }))
+          //console.log(this.swiperList)
+        })
+        .catch(err => {
+          console.log(err)
+        })
       //console.log(this.singerCategory);
     },
-    async fetchSingerList() {
-      const res = await this.$http.get('/artist/list');
-      //console.log(res.data);
-      this.singerList = res.data.data.map(item => ({
-        id: item.singer_id,
-        img: item.singer_pic,
-        name: item.singer_name,
-      }))
+    fetchSingerList() {
+      this.$axios.get('/artist/list?cat='+ this.categoryId)
+        .then(res => {
+          //console.log(res.data);
+          this.singerList = res.data.artists.map(item => ({  
+            name: item.name,
+            img: item.picUrl,
+            id: item.id,
+          }))
+          //console.log(this.swiperList)
+        })
+        .catch(err => {
+          console.log(err)
+        })
       //console.log(this.singerList);
     },
+    getSingerId: function(id) {
+      //console.log(`${id}`);
+      this.$router.push({
+        path: `/singerSongs/${id}`
+      })
+    }
   },
   created() {
       this.fetchSingerCategory();
       this.fetchSingerList();
   },
+  mounted() {
+
+  }
 }
 </script>

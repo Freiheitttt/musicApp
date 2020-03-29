@@ -20,7 +20,7 @@ export default {
   methods: {
     initScroll() {
       this.$refs.wrapper.style.top = this.top + "px"
-      this.scroll = new BScroll(this.$refs.wrapper);
+      this.scroll = new BScroll(this.$refs.wrapper, { mouseWheel: true, click: true, tap: true });
     },
     refresh() {
       this.scroll && this.scroll.refresh();

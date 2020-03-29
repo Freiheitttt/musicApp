@@ -7,11 +7,15 @@
           :swiper-option="swiperOption"
           @img-load="scrollRefresh"
         />
+        <div class="ml-2 mt-2">
+          <span class="text-primary text-lg">|</span>
+          <span class="text-md text-gray3">热门歌单</span>
+        </div>
         <song-sheet-list
           :hot-song="hotSong"
+          @select = 'getSheetId'
         />
       </div>
-      
     </scroll>
   </div>
 </template>
@@ -19,7 +23,6 @@
 import MySwiper from '@/components/main/recommend/MySwiper'
 import SongSheetList from '@/components/main/recommend/SongSheetList'
 import Scroll from '@/components/common/Scroll'
-
 
 export default {
   components :{
@@ -38,34 +41,53 @@ export default {
         autoplay: true,
       },
       hotSong: [],
+      sheetId: '',
+      songs: [],
     }
   },
   methods: {
-    async fetchSwiperList() {
-      const res = await this.$http.get('/banner');
-      //console.log(res.data);
-      this.swiperList = res.data.data.map(item => ({img: item.pic_info.url}))
+    fetchSwiperList() {
+      this.$axios.get('/banner')
+        .then(res => {
+          this.swiperList =  res.data.banners.map(item => ({  
+            img: item.imageUrl
+          }))
+          //console.log(this.swiperList)
+        })
+        .catch(err => {
+          console.log(err)
+        })
     },
-    async fetchHotSong(){
-      const res = await this.$http.get('songList/hot');
-      //console.log(res.data);
-      this.hotSong = res.data.data.list.map(item => ({
-        id: item.dissid,
-        img: item.imgurl,
-        title: item.creator.name,
-        info: item.dissname
-      }))
+    fetchHotSong(){
+      this.$axios.get('/personalized')
+        .then(res => {
+          console.log(res.data.result);
+          this.hotSong = res.data.result.map(item => ({  
+            id: item.id,
+            img: item.picUrl,
+            title: item.name,
+          }))
+        })
+        .catch(err => {
+          console.log(err)
+        })
       //console.log(this.hotSong);
     },
     scrollRefresh(){
       this.$refs.scroll.refresh();
+    },
+    getSheetId: function(id) {
+      console.log(`${id}`);
+      this.$router.push({
+        path: `/sheetSongs/${id}`
+      })
     }
   },
   created() {
     setTimeout(() => {
       this.fetchSwiperList();
-    }, 1000);
-    this.fetchHotSong();
+      this.fetchHotSong();
+    }, 500);
   }
 }
 </script>

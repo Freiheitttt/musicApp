@@ -33,7 +33,8 @@ $color: (
   'black': black, 
   'white': white,
   'gray1': #fafafa,
-  'gray2': rgba(26, 26, 26, 0.5)
+  'gray2': rgba(26, 26, 26, 0.5),
+  'gray3': rgba(24, 18, 18, 0.7),
 );
 @each $key, $value in $color {
   .text-#{$key}{
@@ -61,11 +62,16 @@ $color: (
 .flex-1{
   flex: 1;
 }
-
+.flex-direction {
+  flex-direction: row
+}
 .flex-wrap{
   flex-wrap: wrap;
 }
- 
+.flex-item {
+  width: 45%;
+}
+
 $flex-jc: (
   'start': flex-start,
   'end': flex-end,
@@ -98,12 +104,14 @@ $text-size: (
   sm: 1,
   md: 1.1429,
   lg: 1.4286,
+  xl: 1.7143,
 );
 @each $key, $val in $text-size {
   .text-#{$key} {
     font-size: $val * $text-size-base;
   }
 }
+
 
 $spacing-types: (
   m: margin,
@@ -201,4 +209,26 @@ $pos-size-base: 1rem;
   border-radius: .6rem;
 }
 
+.text-rap {
+  overflow: hidden;
+  text-overflow: ellipsis; 
+  display:-webkit-box; 
+  -webkit-box-orient:vertical;
+  -webkit-line-clamp:2; 
+}
 
+.fl {
+  float: left;
+}
+
+.w40 {
+  width: 40%;
+}
+
+.ls{
+  list-style-type:decimal !important
+}
+
+.lh{
+  line-height: 3rem;
+}

@@ -14,7 +14,6 @@ export default {
   components: {
     MainHeader
   },
-
   methods: {
     toPath(path){
       this.$router.push(path);
