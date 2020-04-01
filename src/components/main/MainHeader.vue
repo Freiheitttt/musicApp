@@ -5,6 +5,7 @@
     </div>
     <div class="nav-list">
       <ul class="d-flex jc-around py-3 text-md text-gray2">
+        <!-- main-header -->
         <li 
           v-for="item of navList" 
           :key="item.name"

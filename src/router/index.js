@@ -24,9 +24,9 @@ const routes = [
       {path : 'rank' , component: Rank},
     ]
   },
-  {path: '/singerSongs/:singerId',name: 'singerSongs', component: SingerSongs},
-  {path: '/sheetSongs/:sheetId', name: 'sheetSongs', component: SheetSongs},
-  {path: '/RankSongs/:rankId', name: 'rankSongs', component: RankSongs},
+  {path: '/singerSongs/singer/:id',name: 'singerSongs', component: SingerSongs},
+  {path: '/sheetSongs/:id', name: 'sheetSongs', component: SheetSongs},
+  {path: '/RankSongs/:id', name: 'rankSongs', component: RankSongs},
 ]
 
 const router = new VueRouter({

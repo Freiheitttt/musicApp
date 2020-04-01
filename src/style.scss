@@ -24,6 +24,12 @@ html {
   font-size: 14px;
 }
 
+
+.input {
+  outline: none;
+  border: none;
+}
+
 .w100 {
   width: 100%;
 }
@@ -231,4 +237,7 @@ $pos-size-base: 1rem;
 
 .lh{
   line-height: 3rem;
+}
+.fw{
+  font-weight: bold;
 }

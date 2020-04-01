@@ -2,7 +2,7 @@
   <div class="rank">
     <scroll :top="76" :list="rankList" ref="scroll">
       <div>
-        <rank-list :rank-list="rankList"></rank-list>
+        <rank-list :rank-list="rankList" @select="getRankId"></rank-list>
       </div>
     </scroll>
   </div>
@@ -10,6 +10,7 @@
 <script>
 import RankList from '@/components/main/rank/RankList'
 import Scroll from '@/components/common/Scroll'
+import getToplistsData from '@/api/getToplistsData'
 
 export default {
   components: {
@@ -23,10 +24,10 @@ export default {
   },
   methods: {
     fetchRankList() { 
-      this.$axios.get('/topList/detail')
+      getToplistsData()
         .then((res) => {
-          console.log(res.data.list);
-          this.rankList = res.data.list
+          //console.log(res.data);
+          this.rankList = res.data.topList
         })
         .catch(err => {
           console.log(err)
@@ -35,6 +36,11 @@ export default {
     scrollRefresh(){
       this.$refs.scroll.refresh();
     },
+    getRankId: function(id,img) {
+      this.$router.push({
+        path: `/rankSongs/${id}?img=${img}`
+      })
+    }
   },
   created() {
     this.fetchRankList();

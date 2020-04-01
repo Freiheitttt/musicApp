@@ -1,11 +1,11 @@
 <template>
   <div class="song-sheet-list">
     <ul class="px-4 pt-3">
-      <li v-for="item of hotSong" :key="item.id" class="d-flex pb-3"            @click="sheetId(item.id)"> 
+      <li v-for="(item, index) of hotSong" :key="index" class="d-flex pb-3"            @click="sheetId(item.id,item.img)"> 
         <img :src="item.img" width="100">
-        <div class="right d-flex flex-wrap pl-3 ai-center">
-          <span class="title w100 text-md">{{item.title}}</span>
-          <!-- <span class="info text-gray2">{{item.info}}</span> -->
+        <div class="right d-flex flex-wrap pl-3 text-primary ai-center text-rap">
+          <span class="title w100 text-md">{{item.title}}</span><br>
+          <span class="info text-xs text-gray2">{{item.write}}</span>
         </div>
       </li>
     </ul>
@@ -21,10 +21,19 @@ export default {
     }
   },
   methods: {
-    sheetId: function(id) {
-      this.$emit('select', id);
+    sheetId: function(id,img) {
+      this.$emit('select',id,img);
     },
   }
 
 }
 </script>
+<style scoped>
+.right span {
+  text-overflow: ellipsis;
+	overflow: hidden;
+  white-space: nowrap;
+  margin-top: 1rem;
+  display: inline-block;
+}
+</style>

@@ -1,5 +1,8 @@
 <template>
   <div class="recommend">
+    <div class="loading-container">
+      <loading></loading>
+    </div>
     <scroll :top="76" :list="hotSong" ref="scroll">
       <div class="scroll-wrapper">
         <my-swiper
@@ -13,7 +16,7 @@
         </div>
         <song-sheet-list
           :hot-song="hotSong"
-          @select = 'getSheetId'
+          @select="getSheetId"
         />
       </div>
     </scroll>
@@ -23,12 +26,14 @@
 import MySwiper from '@/components/main/recommend/MySwiper'
 import SongSheetList from '@/components/main/recommend/SongSheetList'
 import Scroll from '@/components/common/Scroll'
+import Loading from '@/components/common/Loading'
 
 export default {
   components :{
     MySwiper,
     SongSheetList,
     Scroll,
+    Loading,
   },
   data() {
     return {
@@ -61,11 +66,12 @@ export default {
     fetchHotSong(){
       this.$axios.get('/personalized')
         .then(res => {
-          console.log(res.data.result);
+          //console.log(res.data.result);
           this.hotSong = res.data.result.map(item => ({  
             id: item.id,
             img: item.picUrl,
             title: item.name,
+            write: item.copywriter
           }))
         })
         .catch(err => {
@@ -76,10 +82,9 @@ export default {
     scrollRefresh(){
       this.$refs.scroll.refresh();
     },
-    getSheetId: function(id) {
-      console.log(`${id}`);
+    getSheetId: function(id,img) {
       this.$router.push({
-        path: `/sheetSongs/${id}`
+        path: `/sheetSongs/${id}?img=${img}`
       })
     }
   },

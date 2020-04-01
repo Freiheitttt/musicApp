@@ -1,14 +1,11 @@
 <template>
   <div class="detail-list">
-    <ul class="ml-3">
-      <li v-for="item of songList" :key="item.id" 
-          class="lh mx-4 mt-3 ls" @click='fetchMusic'>
-        <span class="text-lg text-rap">{{item.name}}</span>
-        <ul >
-          <li class="mt-3" v-for="(info,index) of item.al" :key="index">
-            <span>{{info.name}}</span>
-          </li>
-        </ul>
+    <ul>
+      <li v-for="(item, index) of songList" :key="index" 
+          class="songs">
+        <span class="text-md ml-3 text-primary">{{index+1}}</span>
+        <span class="text-md ml-2 text-primary">{{item.songname}}</span>
+        <span class="ml-4 text-gray2 show" v-if="item.singername">{{item.singername+'·'+item.albumname}}</span>
       </li>
     </ul>
   </div>
@@ -21,19 +18,27 @@ export default {
       required: true
     },
   },
-  methods: {
-    fetchMusic: function() {
-      this.$axios.get('/song/url?id='+singerId)
-        .then(res => {
-          console.log(res.data.hotSongs);
-          this.name =  res.data.artist.name;
-          this.img =  res.data.artist.img1v1Url;
-          this.songList = res.data.hotSongs;
-        })
-        .catch(err => {
-          console.log(err)
-        })
+  data() {
+    return{
+      
     }
+  },
+  methods: {
   }
 }
 </script>
+<style scoped>
+.songs{
+  line-height: 3rem;
+  border-bottom: 1px solid rgba(65, 112, 240, 0.4);
+  width: 100%;
+  text-overflow: ellipsis;
+	overflow: hidden;
+}
+.show{
+  display: block;
+  margin-top: 0;
+  line-height: 1rem;
+  margin-bottom: 1rem;
+}
+</style>

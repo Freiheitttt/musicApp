@@ -1,35 +1,75 @@
 <template>
-  <div class="singer-list">
-    <ul>
-      <li v-for="item of singerList" :key="item.id" 
-          class="d-flex mx-4 mt-3 ai-center" @click="singerId(item.id)">
-        <img :src="item.img" class="imgStyle">
-        <span class="name pl-4 text-gray2 text-md">{{item.name}}</span>
-      </li>
-    </ul>
+	<div class="singerlist">
+    <div class="loading-container" :v-if="!isShow">
+      <loading></loading>
+    </div>
+    <mt-index-list>
+      <mt-index-section v-for="(item,index) in singerList" :key="index" :index="item.title">
+        <mt-cell v-for="(singer,index) in item.items" :key="index" class="singer-item">
+          <div class="media" @click="goTo(singer.singermid,singer.singername)">
+            <img v-lazy="singer.img">
+            <span>{{singer.singername}}</span>
+          </div>
+        </mt-cell>
+      </mt-index-section>
+    </mt-index-list>
   </div>
 </template>
-
 <script>
-export default {
-  props: {
-    singerList: {
-      type: Array,
-      required: true
-    }
-  },
-  methods: {
-    singerId: function(id) {
-      this.$emit('select', id);
+	import Loading from '@/components/common/Loading'
+	export default {
+		components:{
+			Loading
+		},
+    props: {
+      singerList: {
+        type: Array,
+        required: true
+      }
     },
-  }
-}
+		computed: {
+      isShow: {
+        get() {
+          return this.singerList.length
+        }
+      }
+    },
+    methods: {
+      goTo(id,name){
+        this.$emit('select', id, name)
+      },
+    }
+    
+	}
 </script>
-
 <style scoped>
-.imgStyle {
-  border-radius: 50%;
-  width: 5rem;
-  height: 5rem;
-}
+	.loading-container{
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%,-50%);
+	}
+	.singer-item{
+		position: relative;
+		height: 72px;
+	}
+	.media{
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		width: 80%;
+		height: 72px;
+		line-height: 72px;
+		padding-left: 20px;
+	}
+	.media img{
+		display: inline-block;
+		width: 50px;
+		height: 50px;
+		margin-right: 15px;
+		border-radius: 50%;
+	}
+	.media span{
+		font-size: 14px;
+	}
 </style>

@@ -9,6 +9,16 @@ import './style.scss'
 import axios from './api'
 Vue.prototype.$axios = axios;
 
+import MintUI from 'mint-ui'
+import 'mint-ui/lib/style.css'
+import '@/assets/font/iconfont.css'
+import '@/assets/css/my-mint.css'  //修改mint-ui的默认样式
+Vue.use(MintUI,{
+	lazyload:{
+		loading:require('@/assets/img/lazy1.jpg')
+	}
+})
+
 new Vue({
   router,
   store,
