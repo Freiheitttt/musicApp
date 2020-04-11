@@ -10,9 +10,10 @@
 
 <script>
 import MainHeader from '@/components/main/MainHeader'
+
 export default {
   components: {
-    MainHeader
+    MainHeader,
   },
   methods: {
     toPath(path){

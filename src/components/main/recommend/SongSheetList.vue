@@ -1,7 +1,7 @@
 <template>
   <div class="song-sheet-list">
     <ul class="px-4 pt-3">
-      <li v-for="(item, index) of hotSong" :key="index" class="d-flex pb-3"            @click="sheetId(item.id,item.img)"> 
+      <li v-for="(item, index) of hotSong" :key="index" class="d-flex pb-3" @click="sheetId(item.id,item.img)"> 
         <img :src="item.img" width="100">
         <div class="right d-flex flex-wrap pl-3 text-primary ai-center text-rap">
           <span class="title w100 text-md">{{item.title}}</span><br>
@@ -25,7 +25,6 @@ export default {
       this.$emit('select',id,img);
     },
   }
-
 }
 </script>
 <style scoped>

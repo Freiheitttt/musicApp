@@ -1,104 +1,71 @@
 <template>
-  <div class="search-list">
-    <div class="search-suggestion" v-show="value" ref="suggestion">
-			<mt-loadmore 
-				:bottom-method="loadBottom" 
-				:bottom-all-loaded="allLoaded"
-				@bottom-status-change="test" 
-				ref="loadmore">
-        <ul>
-          <li v-for="(item,index) in suggestionList" :key="index" @click="addSearchHistory(item,item.type)">
-            <div class="media-icon">
-              <i class="iconfont icon-yinle1"></i>
-            </div>
-            <div class="media-text">
-              <h3 v-html="getContent(item,'h3')"></h3>
-              <p v-html="getContent(item,'p')"></p>
-            </div>
-          </li>
-          <li v-show="allLoaded&&suggestionList.length" class="allLoaded">已加载全部</li>
-        </ul>
-      </mt-loadmore>
+  <div class="search-list pt-2">
+    <div class="singer-list bg-gray1" v-show="singerList.length">
+      <ul>
+        <li v-for="item of singerList" :key="item.id" class="mb-2" @click="selectItem(index)">
+          <div class="singerStyle d-flex">
+            <img v-lazy="item.img">
+            <span>{{item.name}}</span>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="singer-list" v-show="songsList.length">
+      <ul>
+        <li v-for="item of songsList" :key="item.id" class="songStyle" @click="selectItem(index)">
+          <span class="text-md text-primary">{{item.name}}</span>
+          <div class="text-gray2 mb-2 mt-1">
+            <span>{{item.singer}}--</span>
+            <span>{{item.album}}</span>
+          </div>
+        </li>
+      </ul>
     </div>
   </div>
 </template>
 <script>
+import { mapGetters,mapActions  } from 'vuex'
 export default {
   props: {
-    suggestionList: {
+    songsList: {
       type: Array,
-      required: true
+      default: () => []
+    },
+    singerList: {
+      type: Array,
+      default: () => []
     }
   },
   methods: {
-    addSearchHistory(item,type){
-      let idx = this.searchHistory.findIndex((history)=>{
-        return history === this.value
-      })
-      if (idx === -1) {
-        this.addItem({
-          key:'searchHistory',
-          song:this.value
-        })
-      }
-      switch (type) {
-        case 2:{
-          this.$router.push('/singerlist/singer/'+item.singermid)
-          break;
-        }
-        case 3:{
-          this.$router.push('/album/'+item.albummid)
-          break;
-        }
-        default :{
-          if (!this.sequencelist.length) {
-            let list=[]
-            list.push(item)
-            this.selectPlay({
-              list,
-              index:0
-            })
-            this.setFullScreenState(true)
-          } else {
-            let index1 = this.playlist.findIndex((song)=>{
-              return song.id === this.currentSong.id
-            })
-            this.addItemPosition({
-              key:'playlist',
-              song:item,
-              index:index1+1
-            })
-            this.setCurrentIndex(index1+1)
-            this.setPlayingState(true)
-            this.setFullScreenState(true)
-          }
-          break;
-        }
-      }
-    },
-    getContent(item,tag){
-      //此函数是获取不同类型搜索建议的内容
-      switch (item.type) {
-        case 2 : 
-          if (tag === 'h3') {
-            return item.singername
-          }else {
-            return `单曲：${item.songnum} 专辑：${item.albumnum}`
-          }
-        case 3 : 
-          if (tag === 'h3') {
-            return item.albumname
-          }else {
-            return item.singername
-          }
-        default : 
-          if (tag === 'h3') {
-            return item.songname
-          }else {
-            return item.singername
-          }
-      }
-    },
+    ...mapActions([
+      'selectPlay'
+    ]),
+    // selectItem(index) {
+    //   let list = this.songsList.slice()
+    //   this.selectPlay({
+    //     list,
+    //     index
+    //   })
+    // },
   }
 }
 </script>
+<style scoped>
+.singerStyle img{
+  width: 4rem;
+  height: 4rem;
+  margin-left: 2rem;
+  border-radius: 50%;
+}
+.singerStyle span{
+  line-height: 4rem;
+  font-size: 1.2rem;
+  margin-left: 2rem;
+  color: #1a73e1;
+}
+.songStyle{
+  border-bottom: 1px solid rgb(72, 97, 204);
+  padding-left: 1.2rem;
+  margin-top: 1rem;
+}
+</style>

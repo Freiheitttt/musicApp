@@ -49,6 +49,8 @@ export default {
         data.list.forEach((item)=>{
           this.songList.push(createSong(item.musicData))
         })
+        console.log(this.songList);
+        
       })
     },
     scrollRefresh(){

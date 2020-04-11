@@ -16,6 +16,7 @@
 	color: #777;
 }
 .mint-indexlist-navitem  {
-	margin-bottom: 5px;
+	margin-bottom: .3rem;
+	flex-direction: flex-start;
 }
 

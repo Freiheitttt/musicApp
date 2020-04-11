@@ -2,14 +2,8 @@
   <div class="singer">
     <scroll :top="76" :list="singerList" ref="scroll">
       <div>
-        <singer-category
-          :singer-category = "singerCategory"
-          @categoryId="categoryId"
-        />
-        <singer-list
-          :singer-list = "singerList"
-          @select = 'getId'
-        />
+        <singer-category :singer-category = "singerCategory" @categoryId="categoryId" />
+        <singer-list :singer-list = "singerList" @select ='getId'/>
       </div>
     </scroll>
   </div>
@@ -21,7 +15,7 @@ import SingerList from '@/components/main/singer/SingerList'
 import Scroll from '@/components/common/Scroll'
 import getSingerlistData from '@/api/getSingerlistData.js'
 
-const HOT_NAME=""   
+const HOT_NAME="↑"   
 const HOT_LIST_LEN = 10 //热门歌手数组长度
 export default {
   components: {
@@ -41,9 +35,9 @@ export default {
   },
   methods: {
     fetchSingerCategory() {
-      this.$axios.get('/artist/category')
+      this.$axios.get('/songList/category')
         .then(res => {
-          //console.log(res.data);
+          console.log(res.data);
           this.singerCategory = res.data.result.map(item => ({  
             sex: item.sex,
             area: item.area,
@@ -106,8 +100,6 @@ export default {
       })
       return hot.concat(sortList);
     },
-
-    
     getId: function(id,name) {
       //console.log(`${id}`);
       this.$router.push({

@@ -5,8 +5,8 @@ import store from './store'
 
 Vue.config.productionTip = false
 
-import './style.scss'
-import axios from './api'
+import '@/assets/css/style.scss'
+import axios from './assets/js/api'
 Vue.prototype.$axios = axios;
 
 import MintUI from 'mint-ui'
@@ -18,7 +18,7 @@ Vue.use(MintUI,{
 		loading:require('@/assets/img/lazy1.jpg')
 	}
 })
-
+  
 new Vue({
   router,
   store,

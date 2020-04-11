@@ -1,12 +1,21 @@
 <template>
   <div class="input-search">
-    <div class="input-warp">
-      <i class="iconfont icon-sousuo"></i>
-      <input type="text" v-model="value" placeholder="搜索歌曲、歌单、专辑" @focus="toggleShow(true)">
-      <i class="iconfont icon-chahao" v-show="value" @click="deleteValue"></i>
-    </div>
-    <div class="cancel-btn" v-show="isShow" @click="toggleShow(false)">
-      取消</div>
+    <div class="search d-flex px-1 pt-2 " >
+			<div class="input-warp">
+				<i class="iconfont icon-sousuo"></i>
+				<input type="text" v-model="value" placeholder="搜索歌曲、歌单、专辑" @focus="toggleShow(true)">
+				<i class="iconfont icon-chahao" v-show="value" @click="deleteValue"></i>
+			</div>
+			<div class="cancel-btn text-xs" v-show="isShow" @click="toggleShow(false)">取消</div>
+		</div>
+		<div class="hot-keys ml-4" v-show="!isShow || !value">
+			<h3>热门搜索</h3>
+			<ul>
+				<li v-for="(item,index) in hotList" :key="index" @click="selectHotKey(item.k)">
+					<span class="text-gray3">{{item.k}}</span>
+				</li>
+			</ul>
+		</div>
   </div>
 </template>
 <script>
@@ -17,23 +26,33 @@ export default {
       isShow: false,
     }
   },
+  props: {
+    hotList: {
+      type: Array,
+      required: true,
+    }
+	},
+	watch:{
+    'value':function(){
+      this.$emit('getInput',this.value)
+    }
+  },
   methods: {
+    selectHotKey(value){
+      this.value = value
+      this.isShow = true
+		},
     deleteValue(){
-      this.value = ''
+			this.value = ''
     },
     toggleShow(flag){
-      this.isShow = flag
-    },
+			this.value = ''
+			this.isShow = flag;
+		},
   },
-  
 }
 </script>
 <style scoped>
-	.input-search{
-		display: flex;
-		background: #f4f4f4;
-		padding: 10px;
-	}
 	.input-warp{
 		display: flex;
 		justify-content: space-between;
@@ -53,7 +72,8 @@ export default {
 	.input-warp input{
 		margin: 0 5px;
 		flex-grow: 1;
-    border: none;
+		border: none;
+		font-size: 1rem;
 		color: rgba(0,0,0,.3);
   }
   .cancel-btn{
@@ -62,5 +82,12 @@ export default {
     font-size: 14px;
     padding: 0 5px 0 15px;
     color: #555;
+  }
+	.hot-keys li{
+		display: inline-block;
+		padding: 5px 10px;
+		margin: 0 20px 10px 0;
+    border-radius: 6px;
+		border: 1px solid rgba(36, 29, 29, 0.4);
 	}
 </style>

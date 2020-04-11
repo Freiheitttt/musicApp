@@ -26,7 +26,7 @@ export default {
     fetchRankList() { 
       getToplistsData()
         .then((res) => {
-          //console.log(res.data);
+          console.log(res.data);
           this.rankList = res.data.topList
         })
         .catch(err => {

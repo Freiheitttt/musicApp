@@ -1,16 +1,17 @@
 <template>
   <div class="detail-list">
     <ul>
-      <li v-for="(item, index) of songList" :key="index" 
-          class="songs">
+      <li v-for="(item, index) of songList" :key="index" class="songs" 
+          @click="selectItem(index)">
         <span class="text-md ml-3 text-primary">{{index+1}}</span>
         <span class="text-md ml-2 text-primary">{{item.songname}}</span>
-        <span class="ml-4 text-gray2 show" v-if="item.singername">{{item.singername+'·'+item.albumname}}</span>
+        <span class="ml-4 text-gray2 show">{{item.singername+'--'+item.albumname}}</span>
       </li>
     </ul>
   </div>
 </template>
 <script>
+import {mapActions} from 'vuex'
 export default {
   props: {
     songList: {
@@ -18,12 +19,19 @@ export default {
       required: true
     },
   },
-  data() {
-    return{
-      
-    }
-  },
   methods: {
+    ...mapActions([
+      'selectPlay'
+    ]),
+    selectItem(index) {
+      if(this.songList){
+        let list = this.songList.slice()
+        this.selectPlay({
+          list,
+          index
+        })
+      }
+    },
   }
 }
 </script>
@@ -40,5 +48,8 @@ export default {
   margin-top: 0;
   line-height: 1rem;
   margin-bottom: 1rem;
+}
+.playing-item{
+	color: #1a73e1;
 }
 </style>

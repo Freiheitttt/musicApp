@@ -2,17 +2,15 @@
   <div class="main-header">
     <div class="title text-primary text-xl text-weight-7 text-center">
       {{title}}
+      <router-link to="/user">
+				<i class="iconfont icon-wode"></i>
+			</router-link>
     </div>
     <div class="nav-list">
       <ul class="d-flex jc-around py-3 text-md text-gray2">
-        <!-- main-header -->
-        <li 
-          v-for="item of navList" 
-          :key="item.name"
+        <li v-for="item of navList" :key="item.name"
           :class="{'nav-active': isActive(item.path)}"
-          @click="navClick(item.path)"
-        >
-            {{item.name}}
+          @click="navClick(item.path)">{{item.name}}
         </li>
       </ul>
     </div>
@@ -20,7 +18,6 @@
 </template>
 
 <script>
-
 export default {
   props: {
     title: {
@@ -35,7 +32,6 @@ export default {
         {path: '/singer', name: '歌手'},
         {path: '/rank', name: '排行'},
         {path: '/search', name: '搜索'},
-
       ]
     }
   },
@@ -58,3 +54,12 @@ export default {
   }
 }
 </script>
+<style scoped>
+.iconfont{
+  font-size: 1.8rem;
+  float: right;
+  line-height: 2.2rem;
+  margin-right: 1rem;
+  color: #1a73e1;
+}
+</style>

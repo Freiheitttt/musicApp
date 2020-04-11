@@ -5,19 +5,12 @@
     </div>
     <scroll :top="76" :list="hotSong" ref="scroll">
       <div class="scroll-wrapper">
-        <my-swiper
-          :swiper-list="swiperList"
-          :swiper-option="swiperOption"
-          @img-load="scrollRefresh"
-        />
+        <my-swiper :swiper-list="swiperList" :swiper-option="swiperOption" @img-load="scrollRefresh" />
         <div class="ml-2 mt-2">
           <span class="text-primary text-lg">|</span>
           <span class="text-md text-gray3">热门歌单</span>
         </div>
-        <song-sheet-list
-          :hot-song="hotSong"
-          @select="getSheetId"
-        />
+        <song-sheet-list :hot-song="hotSong" @select="getSheetId"/>
       </div>
     </scroll>
   </div>
@@ -54,6 +47,7 @@ export default {
     fetchSwiperList() {
       this.$axios.get('/banner')
         .then(res => {
+          console.log(res.data);
           this.swiperList =  res.data.banners.map(item => ({  
             img: item.imageUrl
           }))
@@ -66,7 +60,7 @@ export default {
     fetchHotSong(){
       this.$axios.get('/personalized')
         .then(res => {
-          //console.log(res.data.result);
+          console.log(res.data.result);
           this.hotSong = res.data.result.map(item => ({  
             id: item.id,
             img: item.picUrl,
@@ -77,7 +71,6 @@ export default {
         .catch(err => {
           console.log(err)
         })
-      //console.log(this.hotSong);
     },
     scrollRefresh(){
       this.$refs.scroll.refresh();

@@ -16,6 +16,7 @@ export default {
   data() {
     return {
       songList: [],
+      title: '',
     }
   },
   components: {
@@ -36,10 +37,10 @@ export default {
       var that = this;
       let id=this.$route.params.id;
 				getToplist(id).then((res)=>{
-          console.log(res.songlist);
           res.songlist.forEach((item)=>{
-						this.songList.push(createSong(item.data))
-					})
+            this.songList.push(createSong(item.data))
+          })
+          console.log(this.songList);
       })
     }
   },

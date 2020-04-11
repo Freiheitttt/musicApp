@@ -16,31 +16,30 @@
   </div>
 </template>
 <script>
-	import Loading from '@/components/common/Loading'
-	export default {
-		components:{
-			Loading
+import Loading from '@/components/common/Loading'
+export default {
+	components:{
+		Loading
+	},
+	props: {
+		singerList: {
+			type: Array,
+			required: true
+		}
+	},
+	computed: {
+		isShow: {
+			get() {
+				return this.singerList.length
+			}
+		}
+	},
+	methods: {
+		goTo(id,name){
+			this.$emit('select', id, name)
 		},
-    props: {
-      singerList: {
-        type: Array,
-        required: true
-      }
-    },
-		computed: {
-      isShow: {
-        get() {
-          return this.singerList.length
-        }
-      }
-    },
-    methods: {
-      goTo(id,name){
-        this.$emit('select', id, name)
-      },
-    }
-    
 	}
+}
 </script>
 <style scoped>
 	.loading-container{
