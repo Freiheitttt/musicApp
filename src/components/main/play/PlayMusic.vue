@@ -164,10 +164,8 @@
 				const targetWidth = 40    //图像缩略图宽度
         		const width = window.innerWidth * 0.8 //图像宽度
         		const scale = targetWidth / width
-
         		const paddingLeft = 40
         		const x=-(window.innerWidth/2-paddingLeft)
-
         		const paddingTop = 80
         		const paddingBottom = 30
         		const y=window.innerHeight - paddingTop - width / 2 - paddingBottom
